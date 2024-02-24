@@ -8,7 +8,33 @@ function Content() {
     const [selected, setSelected] = useState("posts")
     const [showItemList, setShowItemList] = useState([])
     const [showTop, setShowTop] = useState(false)
+    const [countDown, setCountDown] = useState(180)
 
+    useEffect(() => {
+        console.log("run useEffect");
+
+        // Cach 1
+
+        const timerId = setInterval(() => {
+        setCountDown(pre => pre - 1)
+        console.log("setInterval");
+      }, 1000)
+      return(()=>{
+        clearInterval(timerId)
+      })
+
+    //   Cach 2
+    // const timerId = setTimeout(() => {
+    //     setCountDown(countDown - 1)
+    // }, 1000)
+
+    //   return(()=>{
+    //     clearTimeout(timerId)
+    //   })
+    // }, [countDown])
+    }, [])
+
+    // console.log("re-render");
     const checkAndShowContent = (e) => {
 
         switch (selected) {
@@ -63,6 +89,8 @@ function Content() {
 
     return(
         <div style={{padding: 20}}>
+            <h1>Count Down: {countDown}</h1>
+
             <div>
                 {tabList.map((tab, index) => {
                     return(
