@@ -7,6 +7,7 @@ const tabList = ["posts", "comments", "albums","photos", "todos", "users"]
 function Content() {
     const [selected, setSelected] = useState("posts")
     const [showItemList, setShowItemList] = useState([])
+    const [showTop, setShowTop] = useState(false)
 
     const checkAndShowContent = (e) => {
 
@@ -35,12 +36,30 @@ function Content() {
     }
 
     useEffect(()=> {
-        console.log("callback");
         fetch(`https://jsonplaceholder.typicode.com/${selected}`)
         .then(res => res.json())
         .then(resultList => setShowItemList(resultList) )
 
     }, [selected])
+
+
+    useEffect(() => {
+
+        const handleScroll = () => {
+           setShowTop( window.scrollY >= 500)
+        }
+
+        window.addEventListener("scroll", handleScroll)
+        console.log("add event");
+
+        // clean up event after unload component 
+
+        return (() => {
+            window.removeEventListener("scroll", handleScroll)
+            console.log("remove event");
+        })
+
+    }, [])
 
     return(
         <div style={{padding: 20}}>
@@ -65,6 +84,16 @@ function Content() {
                     })}
                 </ul>
             </div>
+            {showTop && <button
+                            style={{position: "fixed", 
+                                    right: 20,
+                                    bottom: 20}}
+                            // onClick={}
+                            >
+                            GO TO TOP
+                        </button>
+            }
+            
         </div>
     )
 }
