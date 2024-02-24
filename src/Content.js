@@ -9,14 +9,29 @@ function Content() {
     const [showItemList, setShowItemList] = useState([])
 
     const checkAndShowContent = (e) => {
-        if(selected === "comments") {
-            return e.name
-        } else if(selected === "users") {
-            return e.email
-        }
-         else {
-            return e.title
-        }
+
+        switch (selected) {
+            case "comments":
+                return e.name
+            case "photos":
+                return(
+                    <div>
+                        <img
+                            src={e.thumbnailUrl}
+                        />
+                        <p>{e.title}</p>
+                    </div>
+                )    
+            case "users":
+                return(
+                    <span>
+                        <p>{e.name}</p>
+                        <p>{e.email}</p>
+                    </span>
+                )    
+            default:
+                return e.title    
+            }
     }
 
     useEffect(()=> {
